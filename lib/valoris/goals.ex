@@ -8,6 +8,18 @@ defmodule Valoris.Goals do
 
   alias Valoris.Goals.Goal
 
+  def highest_priority(goals) do
+    goals
+    |> Enum.sort_by(fn g -> comparable_datetime(g.inserted_at) end)
+    |> Enum.at(0)
+  end
+
+  # This is necessary because Render only supports Elixir 1.9.4
+  # So we don't have the new sorting conveniences for dates/times
+  defp comparable_datetime(datetime) do
+    {datetime.year, datetime.month, datetime.day, datetime.hour, datetime.minute, datetime.second}
+  end
+
   @doc """
   Returns the list of goals.
 

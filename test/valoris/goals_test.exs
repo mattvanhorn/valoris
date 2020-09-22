@@ -19,6 +19,12 @@ defmodule Valoris.GoalsTest do
       goal
     end
 
+    test "highest_priority/1 returns the oldest goal" do
+      older_goal = %Goal{name: "old goal", inserted_at: ~N[2019-03-31 11:30:20]}
+      newer_goal = %Goal{name: "new goal", inserted_at: ~N[2020-02-21 01:20:03]}
+      assert Goals.highest_priority([newer_goal, older_goal]) == older_goal
+    end
+
     test "list_goals/0 returns all goals" do
       goal = goal_fixture()
       assert Goals.list_goals() == [goal]

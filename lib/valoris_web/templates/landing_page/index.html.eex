@@ -7,14 +7,24 @@
   </footer>
 </blockquote>
 
-<%= if Enum.empty?(@goals) do %>
-  <h1>You haven't set any goals yet.</h1>
-<% else %>
-  <h1>Current Goals</h1>
+<%= if nil == @focus do %>
 
-  <%= for goal <- @goals do %>
-    <p><strong><%= goal.name %></strong>  - <em><%= goal.purpose %></em></p>
+  <h1>You haven't set any goals yet.</h1>
+
+<% else %>
+
+  <h1>Current Goal</h1>
+  <h2><p><strong><%= @focus.name %></strong>  - <em><%= @focus.purpose %></em></p></h2>
+
+  <%= unless Enum.empty?(@goals) do %>
+
+    <h3>Other Goals</h3>
+    <%= for goal <- @goals do %>
+      <p><%= goal.name %> - <%= goal.purpose %></p>
+    <% end %>
+
   <% end %>
+
 <% end %>
 
 <span><%= link "Set a Goal", to: Routes.goal_path(@conn, :new) %></span>
