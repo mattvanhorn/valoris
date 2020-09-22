@@ -4,6 +4,8 @@ defmodule ValorisWeb.LandingPageController do
 
   def index(conn, _params) do
     goals = Goals.list_goals()
-    render(conn, "index.html", goals: goals)
+    focus = Goals.highest_priority(goals)
+    goals = List.delete(goals, focus)
+    render(conn, "index.html", focus: focus, goals: goals)
   end
 end
