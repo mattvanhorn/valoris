@@ -1,7 +1,9 @@
 defmodule ValorisWeb.LandingPageController do
   use ValorisWeb, :controller
+  alias Valoris.Goals
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    goals = Goals.list_goals()
+    render(conn, "index.html", goals: goals)
   end
 end

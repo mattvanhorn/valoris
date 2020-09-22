@@ -6,3 +6,15 @@
     </cite>
   </footer>
 </blockquote>
+
+<%= if Enum.empty?(@goals) do %>
+  <h1>You haven't set any goals yet.</h1>
+<% else %>
+  <h1>Current Goals</h1>
+
+  <%= for goal <- @goals do %>
+    <p><strong><%= goal.name %></strong>  - <em><%= goal.purpose %></em></p>
+  <% end %>
+<% end %>
+
+<span><%= link "Set a Goal", to: Routes.goal_path(@conn, :new) %></span>

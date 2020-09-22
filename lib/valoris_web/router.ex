@@ -18,6 +18,7 @@ defmodule ValorisWeb.Router do
     pipe_through :browser
 
     get "/", LandingPageController, :index
+    resources "/goals", GoalController
   end
 
   # Other scopes may use custom stacks.
