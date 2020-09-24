@@ -7,11 +7,17 @@ defmodule Valoris.Goals do
   alias Valoris.Repo
 
   alias Valoris.Goals.Goal
+  alias Valoris.Progress
 
   def highest_priority(goals) do
     goals
-    |> Enum.sort_by(fn g -> comparable_datetime(g.inserted_at) end)
+    |> Enum.sort_by(fn g -> comparable_datetime(most_recent_change(g)) end)
     |> Enum.at(0)
+  end
+
+  defp most_recent_change(goal) do
+    action = Progress.most_recent_action(goal)
+    (action && action.inserted_at) || goal.inserted_at
   end
 
   # This is necessary because Render only supports Elixir 1.9.4

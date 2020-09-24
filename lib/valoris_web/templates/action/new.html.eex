@@ -1,0 +1,7 @@
+<h1>New Action</h1>
+<% destination = if @goal, do: Routes.goal_action_path(@conn, :create, @goal), else: Routes.action_path(@conn, :create) %>
+
+<p><%= if @goal, do: @goal.name %></p>
+<%= render "form.html", Map.put(assigns, :action, destination) %>
+
+<span><%= link "Back", to: "/" %></span>
