@@ -15,6 +15,7 @@
 
   <h1>Current Goal</h1>
   <h2><p><strong><%= @focus.name %></strong>  - <em><%= @focus.purpose %></em></p></h2>
+  <span><%= link "Record Progress", to: Routes.goal_action_path(@conn, :new, @focus) %></span>
 
   <%= unless Enum.empty?(@goals) do %>
 

@@ -6,6 +6,8 @@ defmodule Valoris.Goals.Goal do
     field :name, :string
     field :purpose, :string
 
+    has_many :actions, Valoris.Progress.Action
+
     timestamps()
   end
 
