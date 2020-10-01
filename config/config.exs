@@ -18,6 +18,10 @@ config :valoris, ValorisWeb.Endpoint,
   pubsub_server: Valoris.PubSub,
   live_view: [signing_salt: "FKg1DGNZ"]
 
+config :valoris, :pow,
+  user: Valoris.Accounts.User,
+  repo: Valoris.Repo
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
