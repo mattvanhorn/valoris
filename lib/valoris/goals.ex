@@ -7,6 +7,7 @@ defmodule Valoris.Goals do
   alias Valoris.Repo
 
   alias Valoris.Goals.Goal
+  alias Valoris.Accounts.User
   alias Valoris.Progress
 
   def highest_priority(goals) do
@@ -39,6 +40,16 @@ defmodule Valoris.Goals do
     Repo.all(Goal)
   end
 
+  def list_goals_for_user(%User{id: user_id}) do
+    list_goals_for_user(user_id)
+  end
+
+  def list_goals_for_user(user_id) do
+    Goal
+    |> where([g], g.user_id == ^user_id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single goal.
 
@@ -69,6 +80,12 @@ defmodule Valoris.Goals do
   """
   def create_goal(attrs \\ %{}) do
     %Goal{}
+    |> Goal.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_goal_for_user(%User{} = user, attrs \\ %{}) do
+    %Goal{user_id: user.id}
     |> Goal.changeset(attrs)
     |> Repo.insert()
   end

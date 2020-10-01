@@ -15,7 +15,9 @@ defmodule ValorisWeb.GoalController do
   end
 
   def create(conn, %{"goal" => goal_params}) do
-    case Goals.create_goal(goal_params) do
+    current_user = conn.assigns.current_user
+
+    case Goals.create_goal_for_user(current_user, goal_params) do
       {:ok, goal} ->
         conn
         |> put_flash(:info, "Goal created successfully.")
