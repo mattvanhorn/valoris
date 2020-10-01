@@ -88,6 +88,7 @@ defmodule ValorisWeb do
       import Phoenix.View
 
       import ValorisWeb.ErrorHelpers
+      import ValorisWeb.CommonHelpers
       import ValorisWeb.Gettext
       alias ValorisWeb.Router.Helpers, as: Routes
     end

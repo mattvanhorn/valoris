@@ -13,7 +13,20 @@
     <header>
       <section class="container">
         <nav role="navigation">
-          <ul></ul>
+          <%
+          sign_up_path = Routes.pow_registration_path(@conn, :new)
+          sign_in_path = Routes.pow_session_path(@conn, :new)
+          %>
+          <%= if Pow.Plug.current_user(@conn) do %>
+            <span><%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %></span>
+          <% else %>
+            <%= unless on_page?(@conn, sign_up_path) do %>
+              <span><%= link "Sign up", to: sign_up_path %></span>
+            <% end %>
+            <%= unless on_page?(@conn, sign_in_path) do %>
+              <span><%= link "Sign in", to: sign_in_path %></span>
+            <% end %>
+          <% end %>
         </nav>
         Valoris - Personal goal management tools for neurodiverse folks
       </section>

@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>User</th>
       <th>Name</th>
       <th>Purpose</th>
 
@@ -12,6 +13,7 @@
   <tbody>
 <%= for goal <- @goals do %>
     <tr>
+      <td><%= goal.user_id %></td>
       <td><%= goal.name %></td>
       <td><%= goal.purpose %></td>
 

@@ -4,7 +4,7 @@ defmodule Valoris.Accounts.User do
 
   schema "users" do
     pow_user_fields()
-
+    has_many :goals, Valoris.Goals.Goal
     timestamps()
   end
 end

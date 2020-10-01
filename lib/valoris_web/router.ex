@@ -29,18 +29,17 @@ defmodule ValorisWeb.Router do
     pipe_through :browser
 
     get "/", LandingPageController, :index
-
-    resources "/goals", GoalController do
-      resources "/actions", ActionController
-    end
-
-    resources "/actions", ActionController
   end
 
   scope "/", ValorisWeb do
     pipe_through [:browser, :protected]
 
     # Add your protected routes here
+    resources "/goals", GoalController do
+      resources "/actions", ActionController
+    end
+
+    resources "/actions", ActionController
   end
 
   # Other scopes may use custom stacks.

@@ -1,31 +1,80 @@
-<blockquote>
-  <h1>A goal properly set is halfway reached.</h1>
-  <footer>—
-    <cite>
-      Zig Ziglar
-    </cite>
-  </footer>
-</blockquote>
+<div class="container">
 
-<%= if nil == @focus do %>
+  <%= if Pow.Plug.current_user(@conn) do %>
 
-  <h1>You haven't set any goals yet.</h1>
+    <%= if nil == @focus do %>
+      <h1>You haven't set any goals yet.</h1>
+    <% else %>
+      <div id="focus">
+        <h1>Current Goal</h1>
+        <h2><p><strong><%= @focus.name %></strong>  - <em><%= @focus.purpose %></em></p></h2>
+      </div>
+      <div class=""></div>
 
-<% else %>
+      <span><%= link "Record Progress", to: Routes.goal_action_path(@conn, :new, @focus) %></span>
 
-  <h1>Current Goal</h1>
-  <h2><p><strong><%= @focus.name %></strong>  - <em><%= @focus.purpose %></em></p></h2>
-  <span><%= link "Record Progress", to: Routes.goal_action_path(@conn, :new, @focus) %></span>
-
-  <%= unless Enum.empty?(@goals) do %>
-
-    <h3>Other Goals</h3>
-    <%= for goal <- @goals do %>
-      <p><%= goal.name %> - <%= goal.purpose %></p>
+      <div class="row">
+        <div class="column">
+          <h3>Tasks</h3>
+          <ul>
+            <li>test item</li>
+            <li>test item</li>
+            <li>test item</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h3>Practices</h3>
+          <ul>
+            <li>test item</li>
+            <li>test item</li>
+            <li>test item</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h3>Resources</h3>
+          <ul>
+            <li>test item</li>
+            <li>test item</li>
+            <li>test item</li>
+          </ul>
+        </div>
+      </div>
+      
     <% end %>
 
+
+    <%= unless Enum.empty?(@goals) do %>
+      <h3>Other Goals</h3>
+      <%= for goal <- @goals do %>
+        <p><%= goal.name %> - <%= goal.purpose %></p>
+      <% end %>
+    <% end %>
+
+    <span><%= link "Set a Goal", to: Routes.goal_path(@conn, :new) %></span>
+
+  <% else %>
+
+    <blockquote>
+      <h1>A goal properly set is halfway reached.</h1>
+      <footer>—<cite>Zig Ziglar</cite></footer>
+    </blockquote>
+    <p>
+      As someone with ADHD, I know the challenge of trying to meet your own
+      personal goals. Collecting hobbies seems to be another hobby of mine. But
+      even though I have ideas and gear for a dozen different things, I often find
+      myself spending hours binging YouTube or playing videogames because that is
+      easier than deciding what to work on next.
+    </p>
+    <p>
+      So as yet another side project, I started to develop this app, where you can
+      track goals, ideas, resources, and todo items. Soon, it will also allow you
+      to share progress with your supportive friends, and integrate with your
+      calendar so that work and personal projects can coexist with less stress.
+    </p>
+    <p>
+      I'm hoping that others like me will find this useful, and help spur me on to
+      develop more useful features.
+    </p>
+    <%= link "Get started", to: Routes.pow_registration_path(@conn, :new) %>
   <% end %>
-
-<% end %>
-
-<span><%= link "Set a Goal", to: Routes.goal_path(@conn, :new) %></span>
+</div>
