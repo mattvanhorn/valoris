@@ -4,9 +4,10 @@ defmodule ValorisWeb.ActionController do
   alias Valoris.Progress
   alias Valoris.Progress.Action
 
-  def index(conn, _params) do
-    actions = Progress.list_actions()
-    render(conn, "index.html", actions: actions)
+  def index(conn, params) do
+    goal = fetch_goal(params)
+    actions = goal.actions
+    render(conn, "index.html", goal: goal, actions: actions)
   end
 
   defp fetch_goal(params) do
@@ -15,27 +16,20 @@ defmodule ValorisWeb.ActionController do
 
   def new(conn, params) do
     goal = fetch_goal(params)
-    changeset = Progress.change_action(%Action{})
+    changeset = Progress.change_action(%Action{goal: goal})
     render(conn, "new.html", changeset: changeset, goal: goal)
   end
 
-  def create(conn, params = %{"action" => action_params}) do
+  def create(conn, params = %{"action" => action_params} = params) do
     goal = fetch_goal(params)
 
     action_params = if goal, do: Map.put(action_params, "goal_id", goal.id), else: action_params
 
-    case Progress.create_action(action_params) do
+    case Progress.create_action_for_goal(goal, action_params) do
       {:ok, action} ->
         conn
         |> put_flash(:info, "Action created successfully.")
-        |> redirect(
-          to:
-            if goal do
-              Routes.goal_action_path(conn, :show, goal, action)
-            else
-              Routes.action_path(conn, :show, action)
-            end
-        )
+        |> redirect(to: Routes.goal_action_path(conn, :show, goal, action))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset, goal: goal)
@@ -53,14 +47,15 @@ defmodule ValorisWeb.ActionController do
     render(conn, "edit.html", action: action, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "action" => action_params}) do
+  def update(conn, %{"id" => id, "goal_id" => goal_id, "action" => action_params}) do
+    goal = fetch_goal(%{"goal_id" => goal_id})
     action = Progress.get_action!(id)
 
     case Progress.update_action(action, action_params) do
       {:ok, action} ->
         conn
         |> put_flash(:info, "Action updated successfully.")
-        |> redirect(to: Routes.action_path(conn, :show, action))
+        |> redirect(to: Routes.goal_action_path(conn, :show, goal, action))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", action: action, changeset: changeset)
@@ -73,6 +68,6 @@ defmodule ValorisWeb.ActionController do
 
     conn
     |> put_flash(:info, "Action deleted successfully.")
-    |> redirect(to: Routes.action_path(conn, :index))
+    |> redirect(to: Routes.landing_page_path(conn, :index))
   end
 end

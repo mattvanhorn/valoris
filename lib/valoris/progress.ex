@@ -38,7 +38,9 @@ defmodule Valoris.Progress do
 
   """
   def list_actions do
-    Repo.all(Action)
+    Action
+    |> preload(:goal)
+    |> Repo.all()
   end
 
   @doc """
@@ -55,7 +57,11 @@ defmodule Valoris.Progress do
       ** (Ecto.NoResultsError)
 
   """
-  def get_action!(id), do: Repo.get!(Action, id)
+  def get_action!(id) do
+    Action
+    |> Repo.get!(id)
+    |> Repo.preload(:goal)
+  end
 
   @doc """
   Creates a action.
@@ -71,6 +77,12 @@ defmodule Valoris.Progress do
   """
   def create_action(attrs \\ %{}) do
     %Action{}
+    |> Action.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_action_for_goal(goal, attrs \\ %{}) do
+    %Action{goal: goal}
     |> Action.changeset(attrs)
     |> Repo.insert()
   end

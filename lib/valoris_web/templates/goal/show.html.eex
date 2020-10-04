@@ -15,4 +15,4 @@
 </ul>
 
 <span><%= link "Edit", to: Routes.goal_path(@conn, :edit, @goal) %></span>
-<span><%= link "Back", to: Routes.goal_path(@conn, :index) %></span>
+<span><%= link "Back", to: Routes.landing_page_path(@conn, :index) %></span>
