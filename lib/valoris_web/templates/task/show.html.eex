@@ -1,0 +1,18 @@
+<h1>Show Task</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @task.name %>
+  </li>
+
+  <li>
+    <strong>Index:</strong>
+    <%= @task.index %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.goal_task_path(@conn, :edit, @task.goal, @task) %></span>
+<span><%= link "Back", to: Routes.landing_page_path(@conn, :index) %></span>

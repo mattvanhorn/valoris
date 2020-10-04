@@ -17,18 +17,20 @@
         <div class="column">
           <h3>Tasks</h3>
           <ul>
-            <li>test item</li>
-            <li>test item</li>
-            <li>test item</li>
+            <%= for task <- @focus.tasks do %>
+              <li><%= task.name %></li>
+            <% end %>
           </ul>
+          <%= link "Add Task", to: Routes.goal_task_path(@conn, :new, @focus), class: "button" %>
         </div>
         <div class="column">
           <h3>Practices</h3>
           <ul>
-            <li>test item</li>
-            <li>test item</li>
-            <li>test item</li>
+            <%= for practice <- @focus.practices do %>
+              <li><%= practice.name %></li>
+            <% end %>
           </ul>
+          <%= link "Add Practice", to: Routes.goal_practice_path(@conn, :new, @focus), class: "button" %>
         </div>
         <div class="column">
           <h3>Resources</h3>
@@ -37,9 +39,10 @@
             <li>test item</li>
             <li>test item</li>
           </ul>
+          <%= link "Add Resource", to: "#", class: "button" %>
         </div>
       </div>
-      
+
     <% end %>
 
 

@@ -4,6 +4,7 @@ defmodule Valoris.ProgressTest do
   alias Valoris.Progress
 
   describe "actions" do
+    alias Valoris.Repo
     alias Valoris.Progress.Action
 
     @valid_attrs %{description: "some description", title: "some title"}
@@ -16,7 +17,7 @@ defmodule Valoris.ProgressTest do
         |> Enum.into(@valid_attrs)
         |> Progress.create_action()
 
-      action
+      Repo.preload(action, :goal)
     end
 
     test "list_actions/0 returns all actions" do

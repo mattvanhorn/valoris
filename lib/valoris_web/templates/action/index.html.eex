@@ -10,19 +10,19 @@
     </tr>
   </thead>
   <tbody>
-<%= for action <- @actions do %>
-    <tr>
-      <td><%= action.title %></td>
-      <td><%= action.description %></td>
+    <%= for action <- @actions do %>
+      <tr>
+        <td><%= action.title %></td>
+        <td><%= action.description %></td>
 
-      <td>
-        <span><%= link "Show", to: Routes.action_path(@conn, :show, action) %></span>
-        <span><%= link "Edit", to: Routes.action_path(@conn, :edit, action) %></span>
-        <span><%= link "Delete", to: Routes.action_path(@conn, :delete, action), method: :delete, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
+        <td>
+          <span><%= link "Show", to: Routes.goal_action_path(@conn, :show, @goal, action) %></span>
+          <span><%= link "Edit", to: Routes.goal_action_path(@conn, :edit, @goal, action) %></span>
+          <span><%= link "Delete", to: Routes.goal_action_path(@conn, :delete, @goal, action), method: :delete, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 
-<span><%= link "New Action", to: Routes.action_path(@conn, :new) %></span>
+<span><%= link "New Action", to: Routes.goal_action_path(@conn, :new, @goal) %></span>

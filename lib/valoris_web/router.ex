@@ -37,9 +37,9 @@ defmodule ValorisWeb.Router do
     # Add your protected routes here
     resources "/goals", GoalController do
       resources "/actions", ActionController
+      resources "/tasks", TaskController
+      resources "/practices", PracticeController
     end
-
-    resources "/actions", ActionController
   end
 
   # Other scopes may use custom stacks.

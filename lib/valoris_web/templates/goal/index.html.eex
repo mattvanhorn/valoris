@@ -6,7 +6,7 @@
       <th>User</th>
       <th>Name</th>
       <th>Purpose</th>
-
+      <th></th>
       <th></th>
     </tr>
   </thead>
@@ -16,7 +16,11 @@
       <td><%= goal.user_id %></td>
       <td><%= goal.name %></td>
       <td><%= goal.purpose %></td>
-
+      <td>
+        <span><%= link "Tasks", to: Routes.goal_task_path(@conn, :index, goal) %></span>
+        <span>Practice</span>
+        <span>Resources</span>
+      </td>
       <td>
         <span><%= link "Show", to: Routes.goal_path(@conn, :show, goal) %></span>
         <span><%= link "Edit", to: Routes.goal_path(@conn, :edit, goal) %></span>

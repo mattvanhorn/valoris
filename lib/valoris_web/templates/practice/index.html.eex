@@ -1,0 +1,29 @@
+<h1>Listing Practices</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Reason</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for practice <- @practices do %>
+    <tr>
+      <td><%= practice.name %></td>
+      <td><%= practice.reason %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.goal_practice_path(@conn, :show, @goal, practice) %></span>
+        <span><%= link "Edit", to: Routes.goal_practice_path(@conn, :edit, @goal, practice) %></span>
+        <span><%= link "Delete", to: Routes.goal_practice_path(@conn, :delete, @goal, practice), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Practice", to: Routes.goal_practice_path(@conn, :new, @goal) %></span>
+<span><%= link "Back", to: Routes.landing_page_path(@conn, :index) %></span>

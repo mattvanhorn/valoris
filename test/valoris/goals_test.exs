@@ -17,6 +17,7 @@ defmodule Valoris.GoalsTest do
         |> Goals.create_goal()
 
       goal
+      |> Valoris.Repo.preload([:tasks, :practices, :actions])
     end
 
     test "highest_priority/1 returns the oldest goal" do
@@ -67,6 +68,68 @@ defmodule Valoris.GoalsTest do
     test "change_goal/1 returns a goal changeset" do
       goal = goal_fixture()
       assert %Ecto.Changeset{} = Goals.change_goal(goal)
+    end
+  end
+
+  describe "tasks" do
+    alias Valoris.Goals.Task
+
+    @valid_attrs %{index: 42, name: "some name"}
+    @update_attrs %{index: 43, name: "some updated name"}
+    @invalid_attrs %{index: nil, name: nil}
+
+    def task_fixture(attrs \\ %{}) do
+      {:ok, task} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Goals.create_task()
+
+      task
+      |> Valoris.Repo.preload(:goal)
+    end
+
+    test "list_tasks/0 returns all tasks" do
+      task = task_fixture()
+      assert Goals.list_tasks() == [task]
+    end
+
+    test "get_task!/1 returns the task with given id" do
+      task = task_fixture()
+      assert Goals.get_task!(task.id) == task
+    end
+
+    test "create_task/1 with valid data creates a task" do
+      assert {:ok, %Task{} = task} = Goals.create_task(@valid_attrs)
+      assert task.index == 42
+      assert task.name == "some name"
+    end
+
+    test "create_task/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Goals.create_task(@invalid_attrs)
+    end
+
+    test "update_task/2 with valid data updates the task" do
+      task = task_fixture()
+      assert {:ok, %Task{} = task} = Goals.update_task(task, @update_attrs)
+      assert task.index == 43
+      assert task.name == "some updated name"
+    end
+
+    test "update_task/2 with invalid data returns error changeset" do
+      task = task_fixture()
+      assert {:error, %Ecto.Changeset{}} = Goals.update_task(task, @invalid_attrs)
+      assert task == Goals.get_task!(task.id)
+    end
+
+    test "delete_task/1 deletes the task" do
+      task = task_fixture()
+      assert {:ok, %Task{}} = Goals.delete_task(task)
+      assert_raise Ecto.NoResultsError, fn -> Goals.get_task!(task.id) end
+    end
+
+    test "change_task/1 returns a task changeset" do
+      task = task_fixture()
+      assert %Ecto.Changeset{} = Goals.change_task(task)
     end
   end
 end

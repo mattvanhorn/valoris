@@ -8,6 +8,8 @@ defmodule Valoris.Goals.Goal do
 
     belongs_to :user, Valoris.Accounts.User
     has_many :actions, Valoris.Progress.Action
+    has_many :tasks, Valoris.Goals.Task
+    has_many :practices, Valoris.Goals.Practice
 
     timestamps()
   end
